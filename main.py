@@ -16,7 +16,7 @@ IP_ADDRESS = "0.0.0.0"
 
 app = Flask(__name__)
 
-load_dotenv(dotenv_path="../.env")
+load_dotenv(dotenv_path=".env")
 
 app.config['MAIL_SERVER'] = os.getenv("SMTP_HOST")
 app.config['MAIL_PORT'] = os.getenv("SMTP_PORT")
