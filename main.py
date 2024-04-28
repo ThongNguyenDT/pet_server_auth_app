@@ -12,11 +12,11 @@ import hashlib
 import socket
 
 hostname = socket.gethostname()
-IP_ADDRESS = "0.0.0.0"
+IP_ADDRESS = socket.gethostbyname(hostname) 
 
 app = Flask(__name__)
 
-load_dotenv(dotenv_path=".env")
+load_dotenv(dotenv_path="../.env")
 
 app.config['MAIL_SERVER'] = os.getenv("SMTP_HOST")
 app.config['MAIL_PORT'] = os.getenv("SMTP_PORT")
@@ -51,15 +51,6 @@ def resetTokenAutoDestroy(token):
     sleep(resetToken_TTL)
     accounts[token]["resetToken"] = "none"
     print(accounts)
-
-@app.route("/")
-def root():
-    return render_template('index.html')
-
-@app.route("/about")
-def about():
-    return render_template('about.html')
-
 
 @app.route("/forgotPassword", methods = ['POST'])
 def forgotPassword():
@@ -243,14 +234,14 @@ def registerConfirm():
 
 if __name__ == '__main__':
     
-    # xmlPath = "..\\app\\src\\main\\res\\values\\strings.xml"
-    #
-    # tree = ET.parse(xmlPath)
-    # root = tree.getroot()
-    #
-    # for string_element in root.iter('string'):
-    #     if string_element.attrib.get('name') == 'base_url':
-    #         string_element.text = f'http://{IP_ADDRESS}:8080/'
-    #
-    # tree.write(xmlPath)
+    xmlPath = "..\\app\\src\\main\\res\\values\\strings.xml"
+    
+    tree = ET.parse(xmlPath)
+    root = tree.getroot()
+    
+    for string_element in root.iter('string'):
+        if string_element.attrib.get('name') == 'base_url':
+            string_element.text = f'http://{IP_ADDRESS}:8080/'
+    
+    tree.write(xmlPath)
     app.run(host = IP_ADDRESS, port = 8080, debug=True)
